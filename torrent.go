@@ -2332,6 +2332,16 @@ func (t *Torrent) AllowDataDownload() {
 	t.dataDownloadDisallowed.Clear()
 }
 
+func (t *Torrent) IsDataDownloadAllowed() bool {
+	return !t.dataDownloadDisallowed.Bool()
+}
+
+func (t *Torrent) IsDataUploadAllowed() bool {
+	t.cl.lock()
+	defer t.cl.unlock()
+	return !t.dataUploadDisallowed
+}
+
 // Enables uploading data, if it was disabled.
 func (t *Torrent) AllowDataUpload() {
 	t.cl.lock()
